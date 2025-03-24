@@ -35,7 +35,7 @@ exports.callback = async (req, res) => {
       new URLSearchParams({
         grant_type: 'authorization_code',
         code,
-        redirect_uri: process.env.REDDIT_REDIRECT_URI
+        redirect_uri: "http://localhost:3000/auth_callback"
       }).toString(),
       {
         headers: {
