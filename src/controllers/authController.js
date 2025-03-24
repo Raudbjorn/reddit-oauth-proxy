@@ -25,7 +25,8 @@ exports.callback = async (req, res) => {
   const { code, state, error } = req.query;
   
   if (error || !state || !sessions[state]) {
-    return res.redirect('reddkit://auth-error');
+    // Replace custom protocol with your app's error route
+    return res.redirect('http://localhost:3000/auth-error');
   }
   
   try {
@@ -44,7 +45,7 @@ exports.callback = async (req, res) => {
       }
     );
     
-    // Generate an app token for your Electron app
+    // Generate an app token for your app
     const appToken = generateAppToken();
     
     // Store the Reddit tokens mapped to your app token
@@ -57,11 +58,11 @@ exports.callback = async (req, res) => {
     // Clean up the state entry
     delete sessions[state];
     
-    // Redirect back to your app with the app token
-    res.redirect(`reddkit://auth-callback?token=${appToken}`);
+    // Replace custom protocol with your app's callback route
+    res.redirect(`http://localhost:3000/auth_callback?token=${appToken}`);
   } catch (error) {
     console.error('Authentication error:', error);
-    res.redirect('reddkit://auth-error');
+    res.redirect('http://localhost:3000/auth-error');
   }
 };
 
