@@ -100,5 +100,30 @@ exports.refresh = async (req, res) => {
   }
 };
 
+exports.auth_callback = (req, res) => {
+  const { token } = req.query;
+  
+  if (!token || !sessions[token]) {
+    return res.status(400).send('Invalid or missing token');
+  }
+  
+  // Send HTML that will redirect to the localhost app
+  res.send(`
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Authentication Successful</title>
+      <script>
+        window.location.href = "http://localhost:3000/auth_callback?token=${token}";
+      </script>
+    </head>
+    <body>
+      <h1>Authentication Successful</h1>
+      <p>Redirecting to application...</p>
+    </body>
+    </html>
+  `);
+};
+
 // Make sessions available to other modules
 exports.sessions = sessions;
