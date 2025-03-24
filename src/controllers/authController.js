@@ -14,7 +14,7 @@ exports.login = (req, res) => {
   authUrl.searchParams.append('client_id', process.env.REDDIT_CLIENT_ID);
   authUrl.searchParams.append('response_type', 'code');
   authUrl.searchParams.append('state', state);
-  authUrl.searchParams.append('redirect_uri', "http://localhost:3000/auth_callback");
+  authUrl.searchParams.append('redirect_uri', "https://auth.sveinbjorn.dev/callback");
   authUrl.searchParams.append('duration', 'permanent');
   authUrl.searchParams.append('scope', 'identity subscribe read mysubreddits');
   
@@ -35,7 +35,7 @@ exports.callback = async (req, res) => {
       new URLSearchParams({
         grant_type: 'authorization_code',
         code,
-        redirect_uri: "http://localhost:3000/auth_callback"
+        redirect_uri: "https://auth.sveinbjorn.dev/callback"
       }).toString(),
       {
         headers: {
