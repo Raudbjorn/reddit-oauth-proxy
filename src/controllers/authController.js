@@ -125,5 +125,22 @@ exports.auth_callback = (req, res) => {
   `);
 };
 
+exports.token = async (req, res) => {
+  const { appToken } = req.body;
+  
+  if (!appToken || !sessions[appToken]) {
+    return res.status(401).json({ error: 'Invalid token' });
+  }
+  
+  const session = sessions[appToken];
+  
+  // Return the Reddit tokens
+  res.json({
+    access_token: session.redditAccessToken,
+    refresh_token: session.redditRefreshToken,
+    expires_in: Math.floor((session.expiresAt - Date.now()) / 1000)
+  });
+};
+
 // Make sessions available to other modules
 exports.sessions = sessions;
